@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import GlobalStyle from './styles/global';
+import { useState } from 'react';
+import { ToastContainer } from 'react-toastify';
+
+import Form from './components/Form/Form.js'
+import Grid from './components/Grid/Grid.js';
+import Header from './components/Header/Header.js';
+
+import { useProducts } from './hooks/useProducts.js';
+import { Container, Title } from './styles/AppStyles.js';
+import { usePagination } from './hooks/usePagination.js';
 
 function App() {
+  const [onEdit, setOnEdit] = useState(null);
+  const { products } = useProducts();
+  const { page, totalPages, goToNextPage, goToPreviousPage } = usePagination();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <Container>
+        <Title>Produtos</Title>
+        <Form onEdit={onEdit} onSave={() => {}} />
+        <Grid 
+          products={products} 
+          setOnEdit={setOnEdit} 
+          goToNextPage={goToNextPage}
+          goToPreviousPage={goToPreviousPage}
+          page={page}
+          totalPages={totalPages}
+        />
+      </Container>
+        <ToastContainer autoClose={3000} />
+        <GlobalStyle />
+    </>
   );
 }
 
